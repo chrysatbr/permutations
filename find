@@ -1,0 +1,48 @@
+import itertools
+
+def askForN():
+    n = int(input('n='))
+    while n<=0:
+        n = int(input('n='))
+    l = list(range(1,n+1))
+    s = ''.join(map(str,list(range(1,n+1))))
+    print("To n = ",n,", kai oi metatheseis einai: \n",allPermutations(l))
+    print("String me oles tis metatheseis , to opoio exei to mikrotero mikos : ",allPermutationsString(s))
+    
+
+    
+
+def additionLen(s1, s2):
+    for i in range(1, len(s2)):
+        if s1.endswith(s2[:-i]):
+            return i
+    return len(s2)
+
+def findAllPerms(s):
+    return set(''.join(tpl) for tpl in itertools.permutations(s))
+
+def allPermutationsString(s):
+    perms = findAllPerms(s)
+    perms.remove(s)
+    ss = s
+    while perms:
+        cost,next = min((additionLen(ss, m), m) for m in perms)
+        perms.remove(next)
+        ss += next[-cost:]
+    return ss
+
+
+def addpermumatation(m,l):
+    t = []
+    for i in range(len(l)+1):
+        t = t + [l[0:i] + [m] + l[i:]]
+    return t
+
+def allPermutations(l):
+    if len(l) == 0:
+        return [[]]
+    return [x for y in allPermutations(l[1:]) for x in addpermumatation(l[0],y) ]
+
+
+askForN()
+
